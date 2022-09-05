@@ -12,16 +12,18 @@ const Users = () => {
   };
   const renderPhrase = number => {
     if (number < 1)
-      return <span className="badge bg-danger">Никто с тобой не тусанет</span>;
+      return (
+        <span className="badge bg-danger fs-3">Никто с тобой не тусанет</span>
+      );
     else if (number < 5 && number > 1)
       return (
-        <span className="badge bg-primary">
+        <span className="badge bg-primary fs-3">
           {number + ' человека тусанет с тобой сегодня'}
         </span>
       );
     else
       return (
-        <span className="badge bg-primary">
+        <span className="badge bg-primary fs-3">
           {number + ' человек тусанет с тобой сегодня'}
         </span>
       );
@@ -50,7 +52,7 @@ const Users = () => {
                     return (
                       <span
                         key={qualitie._id}
-                        className={'badge bg-' + qualitie.color}
+                        className={'badge bg-' + qualitie.color + ' m-1'}
                       >
                         {qualitie.name}
                       </span>
