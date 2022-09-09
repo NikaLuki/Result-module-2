@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-
 import api from '../api';
+
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll());
   const handleDelete = userId => {
-    setUsers(
-      users.filter(user => {
-        return user._id !== userId;
-      }),
-    );
+    setUsers(users.filter(user => user._id !== userId));
   };
   const renderPhrase = number => {
     if (number < 1)
@@ -31,7 +27,7 @@ const Users = () => {
   return (
     <>
       {renderPhrase(users.length)}
-      {users.length > 0 ? (
+      {users.length > 0 && (
         <table className="table">
           <thead>
             <tr>
@@ -78,8 +74,6 @@ const Users = () => {
             })}
           </tbody>
         </table>
-      ) : (
-        <></>
       )}
     </>
   );
