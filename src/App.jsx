@@ -1,7 +1,7 @@
 import React from 'react';
 import api from './api';
 import SearchStatus from './components/searchStatus';
-import Users from './components/users';
+import Table from './components/table';
 
 const App = () => {
   const [users, setUsers] = React.useState(api.users.fetchAll());
@@ -19,28 +19,11 @@ const App = () => {
   return (
     <>
       <SearchStatus usersCount={users.length} />
-      {users.length > 0 && (
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Имя</th>
-              <th scope="col">Качество</th>
-              <th scope="col">Проффессия</th>
-              <th scope="col">Встретился, раз</th>
-              <th scope="col">Оценка</th>
-              <th scope="col"> Избранное</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <Users
-              users={users}
-              onDelete={handleDelete}
-              onToggleBookMark={handleToggleBookMark}
-            />
-          </tbody>
-        </table>
-      )}
+      <Table
+        users={users}
+        onDelete={handleDelete}
+        onToggleBookMark={handleToggleBookMark}
+      />
     </>
   );
 };
