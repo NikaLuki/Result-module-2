@@ -4,8 +4,13 @@ import PropTypes from "prop-types";
 
 const Pagination = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
     const pageCount = Math.ceil(itemsCount / pageSize);
+    React.useEffect(() => {
+        if (pageCount < currentPage && currentPage !== 1) {
+            console.log("useEffect");
+            onPageChange(currentPage - 1);
+        }
+    }, [pageCount]);
     if (pageCount === 1) {
-        onPageChange(1);
         return null;
     }
     const pages = _.range(1, pageCount + 1);
