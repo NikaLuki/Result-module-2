@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import api from "./api";
-import SearchStatus from "./components/searchStatus";
 import Table from "./components/table";
 
 const App = () => {
-    const [users, setUsers] = React.useState(api.users.fetchAll());
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        api.users.fetchAll().then((data) => {
+            setUsers(data);
+        });
+    }, []);
+
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
     };
@@ -20,7 +26,6 @@ const App = () => {
 
     return (
         <>
-            <SearchStatus usersCount={users.length} />
             <Table
                 users={users}
                 onDelete={handleDelete}

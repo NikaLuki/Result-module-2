@@ -6,7 +6,7 @@ const Pagination = ({ itemsCount, pageSize, onPageChange, currentPage }) => {
     const pageCount = Math.ceil(itemsCount / pageSize);
     React.useEffect(() => {
         if (pageCount < currentPage && currentPage !== 1) {
-            onPageChange(currentPage - 1);
+            onPageChange(pageCount);
         }
     }, [pageCount]);
     if (pageCount === 1) {
