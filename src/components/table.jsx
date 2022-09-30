@@ -11,7 +11,7 @@ const Table = ({ users, onDelete, onToggleBookMark }) => {
     const pageSize = 2;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProprofessions] = useState();
-    const [slectedProfession, setSelectedProfession] = useState();
+    const [slectedProfessionId, setSelectedProfessionId] = useState();
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
@@ -23,11 +23,11 @@ const Table = ({ users, onDelete, onToggleBookMark }) => {
         setCurrentPage(pageIndex);
     };
     const handleSelectProfession = (itemID) => {
-        setSelectedProfession(itemID);
+        setSelectedProfessionId(itemID);
     };
 
-    const filteredUsers = slectedProfession
-        ? users.filter((user) => user.profession._id === slectedProfession)
+    const filteredUsers = slectedProfessionId
+        ? users.filter((user) => user.profession._id === slectedProfessionId)
         : users;
     const userCrop = paginate(filteredUsers, currentPage, pageSize);
     const count = filteredUsers.length;
@@ -38,11 +38,11 @@ const Table = ({ users, onDelete, onToggleBookMark }) => {
                     <GroupList
                         items={professions}
                         onSelectItem={handleSelectProfession}
-                        selectedItem={slectedProfession}
+                        selectedItemId={slectedProfessionId}
                     />
                     <button
                         className="btn btn-secondary mt-2"
-                        onClick={() => setSelectedProfession()}
+                        onClick={() => setSelectedProfessionId()}
                     >
                         Сброс
                     </button>

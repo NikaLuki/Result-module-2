@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const GroupList = ({
     items,
     onSelectItem,
-    selectedItem,
+    selectedItemId,
     valueProperty,
     contentProperty
 }) => {
@@ -17,7 +17,9 @@ const GroupList = ({
                         onClick={() => onSelectItem(items[item][valueProperty])}
                         className={
                             "list-group-item" +
-                            (items[item] === selectedItem ? " active" : "")
+                            (items[item]._id === selectedItemId
+                                ? " active"
+                                : "")
                         }
                         role="button"
                     >
@@ -35,7 +37,7 @@ GroupList.defaultProps = {
 GroupList.propTypes = {
     items: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
     onSelectItem: PropTypes.func.isRequired,
-    selectedItem: PropTypes.string,
+    selectedItemId: PropTypes.string,
     contentProperty: PropTypes.string.isRequired,
     valueProperty: PropTypes.string.isRequired
 };
