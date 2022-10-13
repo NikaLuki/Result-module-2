@@ -1,9 +1,9 @@
 import React from "react";
 import NavMenu from "./components/navMenu";
-import Users from "./components/users";
+import Users from "./pages/users";
 import { Route, Switch } from "react-router-dom";
-import Main from "./components/main";
-import Login from "./components/login";
+import Main from "./pages/main";
+import Login from "./pages/login";
 
 const App = () => {
     return (
