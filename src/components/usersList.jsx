@@ -6,11 +6,13 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./userTable";
 import Pagination from "./pagination";
+import SearchBar from "./searchBar";
 
 const UsersList = ({ api }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProprofessions] = useState();
-    const [slectedProfessionId, setSelectedProfessionId] = useState();
+    const [selectedProfessionId, setSelectedProfessionId] = useState();
+    const [selectedSearchName, setSelectedSearchName] = useState("");
     const [users, setUsers] = useState();
 
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
@@ -45,18 +47,33 @@ const UsersList = ({ api }) => {
         setCurrentPage(pageIndex);
     };
     const handleSelectProfession = (itemID) => {
+        setSelectedSearchName("");
         setSelectedProfessionId(itemID);
     };
-
+    const handleSelectSearchName = ({ target }) => {
+        setSelectedProfessionId();
+        setSelectedSearchName(target.value);
+    };
     const handleSort = (item) => {
         setSortBy(item);
     };
+    const filterUsers = () => {
+        let filteredUsers = users;
+        if (selectedProfessionId || selectedSearchName) {
+            if (selectedProfessionId) {
+                filteredUsers = users.filter(
+                    (user) => user.profession._id === selectedProfessionId
+                );
+            } else {
+                filteredUsers = users.filter((user) =>
+                    user.name.includes(selectedSearchName)
+                );
+            }
+        }
+        return filteredUsers;
+    };
     if (users) {
-        const filteredUsers = slectedProfessionId
-            ? users.filter(
-                  (user) => user.profession._id === slectedProfessionId
-              )
-            : users;
+        const filteredUsers = filterUsers();
         const sortedUser = _.orderBy(
             filteredUsers,
             [sortBy.path],
@@ -71,7 +88,7 @@ const UsersList = ({ api }) => {
                         <GroupList
                             items={professions}
                             onSelectItem={handleSelectProfession}
-                            selectedItemId={slectedProfessionId}
+                            selectedItemId={selectedProfessionId}
                         />
                         <button
                             className="btn btn-secondary mt-2"
@@ -81,8 +98,12 @@ const UsersList = ({ api }) => {
                         </button>
                     </div>
                 )}
-                <div>
-                    <SearchStatus usersCount={count} />
+                <div className="d-flex flex-column">
+                    <SearchStatus length={count} />
+                    <SearchBar
+                        onChange={handleSelectSearchName}
+                        value={selectedSearchName}
+                    />
                     {count > 0 && (
                         <UserTable
                             users={userCrop}
