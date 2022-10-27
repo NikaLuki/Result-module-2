@@ -66,7 +66,9 @@ const UsersList = ({ api }) => {
                 );
             } else {
                 filteredUsers = users.filter((user) =>
-                    user.name.includes(selectedSearchName)
+                    user.name
+                        .toUpperCase()
+                        .includes(selectedSearchName.toUpperCase())
                 );
             }
         }
