@@ -1,17 +1,17 @@
 import React from "react";
-import NavMenu from "./components/navMenu";
-import Users from "./pages/users";
+import Users from "./layouts/users";
 import { Route, Switch } from "react-router-dom";
-import Main from "./pages/main";
-import Login from "./pages/login";
+import Main from "./layouts/main";
+import Login from "./layouts/login";
+import NavMenu from "./components/ui/navMenu";
 
 const App = () => {
     return (
         <>
             <NavMenu />
             <Switch>
-                <Route path={"/users/:userId?"} component={Users} />
-                <Route path={"/login"} component={Login} />
+                <Route path={"/users/:userId?/:edit?"} component={Users} />
+                <Route path={"/login/:type?"} component={Login} />
                 <Route path={"/"} component={Main} />
             </Switch>
         </>
