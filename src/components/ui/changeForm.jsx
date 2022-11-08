@@ -5,7 +5,6 @@ import api from "../../api";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
-import CheckBoxField from "../common/form/checkBoxField";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
@@ -24,8 +23,7 @@ const ChangeForm = ({ userId }) => {
                 name: data.name,
                 profession: data.profession._id,
                 sex: data.sex,
-                qualities: qualitiesList,
-                licence: true
+                qualities: qualitiesList
             });
         });
     }, []);
@@ -80,6 +78,12 @@ const ChangeForm = ({ userId }) => {
         }));
     };
     const validatorConfig = {
+        name: {
+            isRequired: {
+                message: "Введите имя"
+            }
+        },
+
         email: {
             isRequired: {
                 message: "Электронная почта обязательна для заполнения"
@@ -88,30 +92,9 @@ const ChangeForm = ({ userId }) => {
                 message: "Email введен некорректно"
             }
         },
-        password: {
-            isRequired: {
-                message: "Пароль обязателен для заполнения"
-            },
-            isCapitalSymbol: {
-                message: "Пароль должен содержать хотя бы одну заглавную букву"
-            },
-            isContainDigit: {
-                message: "Пароль должен содержать хотя бы одно число"
-            },
-            min: {
-                message: "Пароль должен состоять минимум из 8 символов",
-                value: 8
-            }
-        },
         profession: {
             isRequired: {
                 message: "Обязательно выберите вашу профессию"
-            }
-        },
-        licence: {
-            isRequired: {
-                message:
-                    "Вы не можете использовать наш сервис без подтверждения лицензионного соглашения"
             }
         }
     };
@@ -181,14 +164,6 @@ const ChangeForm = ({ userId }) => {
                     name="qualities"
                     label="Выберите ваши качества"
                 />
-                <CheckBoxField
-                    value={data.licence}
-                    onChange={handleChange}
-                    name="licence"
-                    error={errors.licence}
-                >
-                    Подтвердить <a>лицензионное соглашение</a>
-                </CheckBoxField>
                 <button
                     className="btn btn-primary w-100 mx-auto"
                     type="submit"
