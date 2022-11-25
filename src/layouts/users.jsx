@@ -12,9 +12,9 @@ const Users = () => {
         <>
             {userId ? (
                 edit ? (
-                    <UserChangesPage userId={userId} />
+                    <UserChangesPage />
                 ) : (
-                    <UserPage api={api} userId={userId} />
+                    <UserPage userId={userId} />
                 )
             ) : (
                 <UsersListPage api={api} />
