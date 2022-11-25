@@ -10,7 +10,7 @@ const BookMark = ({ status, onClick }) => {
     );
 };
 BookMark.propTypes = {
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.bool,
     onClick: PropTypes.func.isRequired
 };
 export default BookMark;

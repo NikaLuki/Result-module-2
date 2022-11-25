@@ -28,17 +28,6 @@ const UserPage = ({ userId }) => {
                     </div>
                 </div>
             </div>
-            // <div>
-            //     <h1> {user.name}</h1>
-            //     <h2>Профессия: {user.profession.name}</h2>
-            //     <Qualities qualities={user.qualities} />
-            //     <p>completedMeetings: {user.completedMeetings}</p>
-            //     <h2>Rate: {user.rate}</h2>
-            //     <Link to={`users/${userId}/edit`} onClick={handleClick}>
-            //         {" "}
-            //         <button>Изменить</button>
-            //     </Link>
-            // </div>
         );
     } else {
         return <h1>Loading</h1>;

@@ -7,34 +7,32 @@ import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/userTable";
 import Pagination from "../../common/pagination";
 import SearchBar from "../../ui/searchBar";
+import { useUser } from "../../../hooks/useUsers";
 
 const UsersListPage = ({ api }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProprofessions] = useState();
     const [selectedProfessionId, setSelectedProfessionId] = useState();
     const [selectedSearchName, setSelectedSearchName] = useState("");
-    const [users, setUsers] = useState();
-
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 4;
 
-    useEffect(() => {
-        api.users.fetchAll().then((data) => {
-            setUsers(data);
-        });
-    }, []);
+    const { users } = useUser();
 
     const handleDelete = (userId) => {
-        setUsers(users.filter((user) => user._id !== userId));
+        // setUsers(users.filter((user) => user._id !== userId));
+        console.log(userId);
     };
     const handleToggleBookMark = (id) => {
-        setUsers(
-            users.map((user) =>
-                user._id === id
-                    ? ((user.bookmark = !user.bookmark), user)
-                    : user
-            )
-        );
+        //     //setUsers(
+        //         users.map((user) =>
+        //             user._id === id
+        //                 ? ((user.bookmark = !user.bookmark), user)
+        //                 : user
+        //         )
+        //     );
+        // };
+        console.log(id);
     };
 
     useEffect(() => {
