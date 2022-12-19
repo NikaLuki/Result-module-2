@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import API from "../../../api";
+import React, { useState } from "react";
 import SelectField from "../../common/form/selectField";
 import TextAreaField from "../../common/form/textAreaField";
 import { validator } from "../../../utils/validator";
 import PropTypes from "prop-types";
+import { useUser } from "../../../hooks/useUsers";
 const initialData = { userId: "", content: "" };
 
 const AddCommentForm = ({ onSubmit }) => {
     const [data, setData] = useState(initialData);
-    const [users, setUsers] = useState({});
+    const { users } = useUser();
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -34,9 +34,6 @@ const AddCommentForm = ({ onSubmit }) => {
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
-    useEffect(() => {
-        API.users.fetchAll().then(setUsers);
-    }, []);
     const clearForm = () => {
         setData(initialData);
         setErrors({});

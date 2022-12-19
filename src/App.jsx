@@ -7,23 +7,26 @@ import NavMenu from "./components/ui/navMenu";
 import { ToastContainer } from "react-toastify";
 import ProfessionProvider from "./hooks/useProfession";
 import QualitiesProvider from "./hooks/useQualities";
+import AuthProvider from "./hooks/useAuth";
 
 const App = () => {
     return (
         <>
-            <NavMenu />
-            <ProfessionProvider>
-                <QualitiesProvider>
-                    <Switch>
-                        <Route
-                            path={"/users/:userId?/:edit?"}
-                            component={Users}
-                        />
-                        <Route path={"/login/:type?"} component={Login} />
-                        <Route path={"/"} component={Main} />
-                    </Switch>
-                </QualitiesProvider>
-            </ProfessionProvider>
+            <AuthProvider>
+                <NavMenu />
+                <ProfessionProvider>
+                    <QualitiesProvider>
+                        <Switch>
+                            <Route
+                                path={"/users/:userId?/:edit?"}
+                                component={Users}
+                            />
+                            <Route path={"/login/:type?"} component={Login} />
+                            <Route path={"/"} component={Main} />
+                        </Switch>
+                    </QualitiesProvider>
+                </ProfessionProvider>
+            </AuthProvider>
             <ToastContainer />
         </>
     );

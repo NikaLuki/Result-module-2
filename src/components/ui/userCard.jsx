@@ -47,7 +47,7 @@ const UserCard = ({ name, profession, rate }) => {
 
 UserCard.propTypes = {
     name: PropTypes.string.isRequired,
-    profession: PropTypes.object.isRequired,
+    profession: PropTypes.string.isRequired,
     rate: PropTypes.number.isRequired
 };
 

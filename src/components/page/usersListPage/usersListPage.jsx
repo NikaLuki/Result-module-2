@@ -82,7 +82,7 @@ const UsersListPage = ({ api }) => {
         const userCrop = paginate(sortedUser, currentPage, pageSize);
         const count = filteredUsers.length;
         return (
-            <div className="d-flex">
+            <div className="d-flex justify-content-center">
                 {professions && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
                         <GroupList

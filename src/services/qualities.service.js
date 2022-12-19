@@ -1,10 +1,10 @@
 import httpService from "./http.service";
 
-const qualitiesEndponit = "quality/";
+const qualitiesEndpoint = "quality/";
 
 const qualitiesService = {
     get: async () => {
-        const { data } = await httpService.get(qualitiesEndponit);
+        const { data } = await httpService.get(qualitiesEndpoint);
         return data;
     }
 };
