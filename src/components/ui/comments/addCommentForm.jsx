@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import SelectField from "../../common/form/selectField";
 import TextAreaField from "../../common/form/textAreaField";
 import { validator } from "../../../utils/validator";
 import PropTypes from "prop-types";
-import { useUser } from "../../../hooks/useUsers";
-const initialData = { userId: "", content: "" };
 
 const AddCommentForm = ({ onSubmit }) => {
-    const [data, setData] = useState(initialData);
-    const { users } = useUser();
+    const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -17,11 +13,6 @@ const AddCommentForm = ({ onSubmit }) => {
         }));
     };
     const validatorConfig = {
-        userId: {
-            isRequired: {
-                message: "Выберите от чьего имени вы хотите отправить сообщение"
-            }
-        },
         content: {
             isRequired: {
                 message: "Сообщение не может быть пустым"
@@ -35,7 +26,7 @@ const AddCommentForm = ({ onSubmit }) => {
         return Object.keys(errors).length === 0;
     };
     const clearForm = () => {
-        setData(initialData);
+        setData({});
         setErrors({});
     };
     const handleSubmit = (e) => {
@@ -45,26 +36,12 @@ const AddCommentForm = ({ onSubmit }) => {
         onSubmit(data);
         clearForm();
     };
-    const arrayOfUsers =
-        users &&
-        Object.keys(users).map((userId) => ({
-            label: users[userId].name,
-            value: users[userId]._id
-        }));
     return (
         <div>
             <h2>New comment</h2>
             <form onSubmit={handleSubmit}>
-                <SelectField
-                    onChange={handleChange}
-                    options={arrayOfUsers}
-                    name="userId"
-                    value={data.userId}
-                    defaultOption="Выберите пользователя"
-                    error={errors.userId}
-                />
                 <TextAreaField
-                    value={data.content}
+                    value={data.content || ""}
                     onChange={handleChange}
                     name="content"
                     label="Сообщение"

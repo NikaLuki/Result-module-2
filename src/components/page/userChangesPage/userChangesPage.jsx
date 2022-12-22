@@ -1,6 +1,5 @@
 import React from "react";
 import ChangeForm from "../../ui/changeForm";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import BackHistoryButton from "../../common/backButton";
 
@@ -18,7 +17,4 @@ const UserChangesPage = () => {
     );
 };
 
-UserChangesPage.propTypes = {
-    userId: PropTypes.string.isRequired
-};
 export default UserChangesPage;

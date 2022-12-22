@@ -16,7 +16,7 @@ const MeetingsCard = ({ completedMeetings }) => {
 };
 
 MeetingsCard.propTypes = {
-    completedMeetings: PropTypes.number.isRequired
+    completedMeetings: PropTypes.string.isRequired
 };
 
 export default MeetingsCard;

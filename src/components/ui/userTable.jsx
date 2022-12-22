@@ -8,13 +8,7 @@ import Table from "../common/table";
 import { Link } from "react-router-dom";
 import Profession from "./profession";
 
-const UserTable = ({
-    users,
-    onDelete,
-    onToggleBookMark,
-    onSort,
-    selectedSort
-}) => {
+const UserTable = ({ users, onToggleBookMark, onSort, selectedSort }) => {
     const handleSort = (item) => {
         if (selectedSort.path === item) {
             onSort({
@@ -53,18 +47,6 @@ const UserTable = ({
                     onClick={() => onToggleBookMark(user._id)}
                 />
             )
-        },
-        delete: {
-            component: (user) => (
-                <button
-                    className="btn btn-danger"
-                    onClick={() => {
-                        onDelete(user._id);
-                    }}
-                >
-                    delete
-                </button>
-            )
         }
     };
     return (
@@ -78,7 +60,6 @@ const UserTable = ({
 
 UserTable.propTypes = {
     users: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired,
     onToggleBookMark: PropTypes.func.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired
