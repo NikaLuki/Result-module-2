@@ -5,32 +5,19 @@ import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import PropTypes from "prop-types";
-import { useHistory, useParams } from "react-router-dom";
-import { useUser } from "../../hooks/useUsers";
-import { useQualities } from "../../hooks/useQualities";
+import { useHistory } from "react-router-dom";
 import { useProfessions } from "../../hooks/useProfession";
 import { useAuth } from "../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getQualities, getQualitiesLoadingStatus } from "../../store/qualities";
 
 const ChangeForm = () => {
-    const { userId } = useParams();
-    const { getUser } = useUser();
-    const { editUser } = useAuth();
-    const user = getUser(userId);
-    const [data, setData] = useState({
-        email: "",
-        password: "",
-        profession: "",
-        sex: "male",
-        name: "",
-        qualities: [],
-        licence: false
-    });
+    const { editUser, currentUser } = useAuth();
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState();
     const history = useHistory();
-    const {
-        qualities,
-        getQuality,
-        isLoading: qualitiesLoading
-    } = useQualities();
+    const qualities = useSelector(getQualities());
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const qualitiesList = qualities.map((q) => ({
         label: q.name,
         value: q._id
@@ -40,18 +27,39 @@ const ChangeForm = () => {
         label: p.name,
         value: p._id
     }));
+
+    function getQualitiesListByIds(qualitiesIds) {
+        const qualitiesArray = [];
+        for (const qualId of qualitiesIds) {
+            for (const quality of qualities) {
+                if (quality._id === qualId) {
+                    qualitiesArray.push(quality);
+                    break;
+                }
+            }
+        }
+        return qualitiesArray;
+    }
+
+    const transformData = (data) => {
+        return getQualitiesListByIds(data).map((qual) => ({
+            label: qual.name,
+            value: qual._id
+        }));
+    };
     useEffect(() => {
-        if (!qualitiesLoading && !professionsLoading) {
+        if (!qualitiesLoading && !professionsLoading && currentUser && !data) {
             setData({
-                ...user,
-                qualities: user.qualities.map((qId) => {
-                    const q = getQuality(qId);
-                    return { label: q.name, value: q._id };
-                })
+                ...currentUser,
+                qualities: transformData(currentUser.qualities)
             });
         }
-    }, [qualitiesLoading]);
-
+    }, [qualitiesLoading, professionsLoading, currentUser, data]);
+    useEffect(() => {
+        if (data) {
+            setLoading(false);
+        }
+    }, [data]);
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -90,7 +98,7 @@ const ChangeForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
@@ -98,11 +106,11 @@ const ChangeForm = () => {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
-        editUser(newData);
-        history.push("/users");
+        await editUser(newData);
+        history.push(`/users/${currentUser._id}`);
     };
 
-    return data._id ? (
+    return !isLoading ? (
         <form onSubmit={handleSubmit}>
             <TextField
                 label="Имя"
