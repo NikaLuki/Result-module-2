@@ -2,6 +2,7 @@ import { createAction, createSlice } from "@reduxjs/toolkit";
 import authService from "../services/auth.service";
 import localStorageService from "../services/localStorage.service";
 import userService from "../services/user.service";
+import generateAuthError from "../utils/generateAuthError";
 import history from "../utils/history";
 
 const initialState = localStorageService.getAccessToken()
@@ -21,7 +22,6 @@ const initialState = localStorageService.getAccessToken()
           isLoggedIn: false,
           dataLoaded: false
       };
-
 const usersSlice = createSlice({
     name: "users",
     initialState,
@@ -66,6 +66,9 @@ const usersSlice = createSlice({
         },
         userUpdateFailed: (state, action) => {
             state.error = action.payload;
+        },
+        authRequested: (state) => {
+            state.error = null;
         }
     }
 });
@@ -123,7 +126,11 @@ export const logIn =
             localStorageService.setTokens(data);
             history.push(redirect);
         } catch (error) {
-            dispatch(authRequestFailed(error.message));
+            const { code, message } = error.response.data.error;
+            if (code === 400) {
+                const errorMesage = generateAuthError(message);
+                dispatch(authRequestFailed(errorMesage));
+            } else dispatch(authRequestFailed(error.message));
         }
     };
 
@@ -185,5 +192,6 @@ export const getCurrentUserData = () => (state) => {
         ? state.users.entities.find((u) => u._id === state.users.auth.userId)
         : null;
 };
+export const getAuthError = () => (state) => state.users.error;
 
 export default usersReducer;
