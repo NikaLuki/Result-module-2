@@ -1,27 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Users from "./layouts/users";
 import { Route, Switch } from "react-router-dom";
 import Main from "./layouts/main";
 import Login from "./layouts/login";
 import NavMenu from "./components/ui/navMenu";
 import { ToastContainer } from "react-toastify";
-import AuthProvider from "./hooks/useAuth";
 import ProtectedRoute from "./components/common/protectedRoute";
 import LogOut from "./layouts/logOut";
-
-import { useDispatch } from "react-redux";
-import { loadQualitiesList } from "./store/qualities";
-import { loadProfessionsList } from "./store/profession";
+import AppLoader from "./components/ui/hoc/appLoader";
 
 const App = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(loadQualitiesList());
-        dispatch(loadProfessionsList());
-    }, []);
     return (
-        <>
-            <AuthProvider>
+        <div>
+            <AppLoader>
                 <NavMenu />
 
                 <Switch>
@@ -33,9 +24,9 @@ const App = () => {
                     <Route path={"/logout"} component={LogOut} />
                     <Route path={"/"} component={Main} />
                 </Switch>
-            </AuthProvider>
+            </AppLoader>
             <ToastContainer />
-        </>
+        </div>
     );
 };
 

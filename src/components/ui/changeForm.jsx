@@ -5,20 +5,19 @@ import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getQualities, getQualitiesLoadingStatus } from "../../store/qualities";
 import {
     getProfessions,
     getProfessionsLoadingStatus
 } from "../../store/profession";
+import { getCurrentUserData, updateUserData } from "../../store/users";
 
 const ChangeForm = () => {
-    const { editUser, currentUser } = useAuth();
+    const dispatch = useDispatch();
+    const currentUser = useSelector(getCurrentUserData());
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState();
-    const history = useHistory();
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const qualitiesList = qualities.map((q) => ({
@@ -102,7 +101,7 @@ const ChangeForm = () => {
     };
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
@@ -110,8 +109,7 @@ const ChangeForm = () => {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
-        await editUser(newData);
-        history.push(`/users/${currentUser._id}`);
+        dispatch(updateUserData(newData));
     };
 
     return !isLoading ? (
